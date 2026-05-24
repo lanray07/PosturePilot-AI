@@ -45,14 +45,14 @@ jobs:
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID || secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_MATERIAL: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 || secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
         run: |
           missing=()
           [[ -z "$APPLE_TEAM_ID" ]] && missing+=("APPLE_TEAM_ID")
           [[ -z "$APP_STORE_CONNECT_API_KEY_ID" ]] && missing+=("APP_STORE_CONNECT_API_KEY_ID")
-          [[ -z "$APP_STORE_CONNECT_API_ISSUER_ID" ]] && missing+=("APP_STORE_CONNECT_API_ISSUER_ID")
-          [[ -z "$APP_STORE_CONNECT_API_KEY_BASE64" ]] && missing+=("APP_STORE_CONNECT_API_KEY_BASE64")
+          [[ -z "$APP_STORE_CONNECT_API_ISSUER_ID" ]] && missing+=("APP_STORE_CONNECT_API_ISSUER_ID or APP_STORE_CONNECT_ISSUER_ID")
+          [[ -z "$APP_STORE_CONNECT_API_KEY_MATERIAL" ]] && missing+=("APP_STORE_CONNECT_API_KEY_BASE64 or APP_STORE_CONNECT_API_PRIVATE_KEY")
 
           if (( ${#missing[@]} )); then
             printf "::error::Missing required GitHub Actions secrets: %s\n" "${missing[*]}"
@@ -62,21 +62,31 @@ jobs:
       - name: Install App Store Connect API key
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+          APP_STORE_CONNECT_API_KEY_MATERIAL: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 || secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
         run: |
           set -euo pipefail
-
-          decode_secret() {
-            local value="$1"
-            local output="$2"
-            printf "%s" "$value" | base64 --decode > "$output" 2>/dev/null || \
-            printf "%s" "$value" | base64 -D > "$output"
-          }
 
           ASC_KEY_DIR="$HOME/.appstoreconnect/private_keys"
           ASC_KEY_PATH="$ASC_KEY_DIR/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
           mkdir -p "$ASC_KEY_DIR"
-          decode_secret "$APP_STORE_CONNECT_API_KEY_BASE64" "$ASC_KEY_PATH"
+
+          python3 - "$ASC_KEY_PATH" <<'PY'
+          import base64
+          import os
+          import sys
+
+          material = os.environ["APP_STORE_CONNECT_API_KEY_MATERIAL"].strip()
+          if "BEGIN PRIVATE KEY" in material:
+              key_data = material.replace("\\n", "\n").encode("utf-8")
+          else:
+              key_data = base64.b64decode(material)
+
+          output_path = sys.argv[1]
+          with open(output_path, "wb") as key_file:
+              key_file.write(key_data)
+          PY
+
+          grep -q "BEGIN PRIVATE KEY" "$ASC_KEY_PATH"
           chmod 600 "$ASC_KEY_PATH"
 
           {
@@ -86,6 +96,8 @@ jobs:
       - name: Archive app
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID || secrets.APP_STORE_CONNECT_ISSUER_ID }}
         run: |
           set -o pipefail
           xcodebuild \
@@ -96,8 +108,8 @@ jobs:
             -archivePath "$RUNNER_TEMP/PosturePilotAI.xcarchive" \
             -allowProvisioningUpdates \
             -authenticationKeyPath "$ASC_KEY_PATH" \
-            -authenticationKeyID "${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}" \
-            -authenticationKeyIssuerID "${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}" \
+            -authenticationKeyID "$APP_STORE_CONNECT_API_KEY_ID" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_API_ISSUER_ID" \
             MARKETING_VERSION="$MARKETING_VERSION" \
             CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
             DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
@@ -107,6 +119,8 @@ jobs:
       - name: Export IPA
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID || secrets.APP_STORE_CONNECT_ISSUER_ID }}
         run: |
           set -euo pipefail
           EXPORT_OPTIONS="$RUNNER_TEMP/ExportOptions.plist"
@@ -142,8 +156,8 @@ jobs:
             -exportOptionsPlist "$EXPORT_OPTIONS" \
             -allowProvisioningUpdates \
             -authenticationKeyPath "$ASC_KEY_PATH" \
-            -authenticationKeyID "${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}" \
-            -authenticationKeyIssuerID "${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}"; then
+            -authenticationKeyID "$APP_STORE_CONNECT_API_KEY_ID" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_API_ISSUER_ID"; then
             /usr/libexec/PlistBuddy -c "Set :method app-store" "$EXPORT_OPTIONS"
             xcodebuild -exportArchive \
               -archivePath "$RUNNER_TEMP/PosturePilotAI.xcarchive" \
@@ -151,8 +165,8 @@ jobs:
               -exportOptionsPlist "$EXPORT_OPTIONS" \
               -allowProvisioningUpdates \
               -authenticationKeyPath "$ASC_KEY_PATH" \
-              -authenticationKeyID "${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}" \
-              -authenticationKeyIssuerID "${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}"
+              -authenticationKeyID "$APP_STORE_CONNECT_API_KEY_ID" \
+              -authenticationKeyIssuerID "$APP_STORE_CONNECT_API_ISSUER_ID"
           fi
 
           IPA_PATH="$(find "$EXPORT_PATH" -type f -name '*.ipa' -print -quit)"
@@ -175,7 +189,7 @@ jobs:
         if: ${{ inputs.upload_to_app_store_connect }}
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID || secrets.APP_STORE_CONNECT_ISSUER_ID }}
         run: |
           set -euo pipefail
           xcrun altool --upload-app \

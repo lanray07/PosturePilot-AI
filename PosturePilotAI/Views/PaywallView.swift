@@ -35,6 +35,12 @@ struct PaywallView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
             PillLabel(title: "Subscriptions", icon: "crown")
+            VisualAssetCard(
+                assetName: "PremiumPlansVisual",
+                height: 214,
+                title: "Premium posture intelligence",
+                subtitle: "Advanced insights, reports, and productivity-aware coaching."
+            )
             Text("Choose the posture habit toolkit that fits your desk routine.")
                 .font(.title2.bold())
                 .fixedSize(horizontal: false, vertical: true)

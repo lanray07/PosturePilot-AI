@@ -1,9 +1,12 @@
 import SwiftData
 import SwiftUI
+import StoreKit
 
 struct FocusSessionsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.requestReview) private var requestReview
     @EnvironmentObject private var appServices: AppServices
+    @AppStorage("focusSessionCompletionCount") private var focusSessionCompletionCount = 0
     @Query(sort: \FocusSession.createdAt, order: .reverse) private var sessions: [FocusSession]
     @StateObject private var viewModel = FocusSessionViewModel()
 
@@ -22,6 +25,8 @@ struct FocusSessionsView: View {
 
                 sessionTimer
                 sessionControls
+
+                ShareInviteCard(context: .focus(mode: viewModel.selectedMode), tint: .ppBlue)
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Session prompts")
@@ -50,6 +55,12 @@ struct FocusSessionsView: View {
             PillLabel(title: "Posture-aware focus", icon: viewModel.selectedMode.icon)
             Text("Stay immersed without letting breaks disappear.")
                 .font(.title2.bold())
+            VisualAssetCard(
+                assetName: "FocusFlowVisual",
+                height: 190,
+                title: "\(viewModel.selectedMode.title) mode",
+                subtitle: "Posture checks, eye-rest cues, and recovery prompts."
+            )
         }
     }
 
@@ -110,6 +121,7 @@ struct FocusSessionsView: View {
             HStack {
                 Button {
                     viewModel.saveCompletion(in: modelContext)
+                    recordFocusCompletion()
                 } label: {
                     Label("Complete", systemImage: "checkmark")
                         .frame(maxWidth: .infinity)
@@ -163,5 +175,12 @@ struct FocusSessionsView: View {
         }
         .font(.subheadline)
         .cardStyle()
+    }
+
+    private func recordFocusCompletion() {
+        focusSessionCompletionCount += 1
+        if GrowthService.shouldRequestReview(completionCount: focusSessionCompletionCount) {
+            requestReview()
+        }
     }
 }

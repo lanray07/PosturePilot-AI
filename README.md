@@ -12,6 +12,7 @@ The app uses:
 - Camera, CoreMotion, WidgetKit, and Apple Watch placeholders
 - Local notifications
 - Swift Charts analytics
+- Premium generated brand assets, app icons, and App Store preview posters
 
 PosturePilot AI is not a medical device and does not provide medical advice, diagnosis, treatment, or injury prevention guarantees.
 
@@ -22,3 +23,18 @@ POST https://YOUR_BACKEND_URL.com/posturepilot-ai
 ```
 
 Never store provider API keys in the iOS app bundle.
+
+Brand assets can be regenerated with:
+
+```bash
+python Scripts/generate_brand_assets.py
+```
+
+Local safety checks:
+
+```bash
+python Scripts/scan_secrets.py
+python Scripts/validate_app_store_metadata.py
+```
+
+GitHub Actions runs the same secret scan and an Xcode iOS Simulator build on macOS.

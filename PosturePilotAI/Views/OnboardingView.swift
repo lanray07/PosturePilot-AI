@@ -57,6 +57,12 @@ struct OnboardingView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
+            VisualAssetCard(
+                assetName: "HeroPosture",
+                height: 244,
+                title: "PosturePilot AI",
+                subtitle: "Camera checks, calmer focus, and ergonomic awareness."
+            )
             PillLabel(title: "Wellness-tech posture habits", icon: "sparkles")
             Text("Build healthier desk routines with posture checks, movement breaks, focus sessions, and ergonomic awareness.")
                 .font(.title2.weight(.semibold))

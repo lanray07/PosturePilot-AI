@@ -1,0 +1,43 @@
+name: Xcode Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  secrets-and-xcode:
+    name: Secret Scan + iOS Simulator Build
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show tool versions
+        run: |
+          sw_vers
+          xcodebuild -version
+          xcrun simctl list runtimes
+
+      - name: Scan for committed API secrets
+        run: python3 Scripts/scan_secrets.py
+
+      - name: Validate App Store metadata
+        run: python3 Scripts/validate_app_store_metadata.py
+
+      - name: Build PosturePilot AI
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project PosturePilotAI.xcodeproj \
+            -scheme PosturePilotAI \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build

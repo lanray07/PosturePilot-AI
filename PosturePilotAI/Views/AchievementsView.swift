@@ -14,6 +14,10 @@ struct AchievementsView: View {
                 if achievements.isEmpty {
                     EmptyStateView(title: "No badges yet", subtitle: "Achievements are seeded when the app starts.", icon: "rosette")
                 } else {
+                    if let unlocked = achievements.first(where: \.unlocked) {
+                        ShareInviteCard(context: .achievement(unlocked.title), tint: .ppAmber)
+                    }
+
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
                         ForEach(achievements) { achievement in
                             AchievementBadge(achievement: achievement)

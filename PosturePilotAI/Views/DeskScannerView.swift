@@ -62,21 +62,20 @@ struct DeskScannerView: View {
 
     private var cameraPlaceholder: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.ppSurfaceRaised)
-            VStack(spacing: 12) {
-                Image(systemName: "rectangle.and.text.magnifyingglass")
-                    .font(.system(size: 58))
-                    .foregroundStyle(Color.ppCyan)
-                Text("Workspace camera scanner placeholder")
+            VisualAssetCard(assetName: "DeskScanVisual", height: 280)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Spacer()
+                Text("Workspace scanner placeholder")
                     .font(.headline)
-                Text("Use camera framing plus the questions below to generate ergonomic suggestions.")
+                    .foregroundStyle(.white)
+                Text("Camera framing plus setup questions produce ergonomic suggestions.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
+                    .foregroundStyle(.white.opacity(0.78))
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(18)
         }
-        .frame(height: 260)
     }
 }

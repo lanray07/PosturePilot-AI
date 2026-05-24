@@ -1,9 +1,12 @@
 import SwiftData
 import SwiftUI
+import StoreKit
 
 struct StretchRoutinesView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.requestReview) private var requestReview
     @EnvironmentObject private var appServices: AppServices
+    @AppStorage("stretchRoutineCompletionCount") private var stretchRoutineCompletionCount = 0
     @Query(sort: \StretchRoutine.title) private var routines: [StretchRoutine]
     @StateObject private var viewModel = StretchRoutinesViewModel()
     @State private var pulse = false
@@ -29,6 +32,7 @@ struct StretchRoutinesView: View {
                 }
 
                 recommendationsView
+                ShareInviteCard(context: .stretch("desk reset"), tint: .ppTeal)
                 WellnessDisclaimerView(compact: true)
             }
             .padding(18)
@@ -48,6 +52,12 @@ struct StretchRoutinesView: View {
             PillLabel(title: "Stretch and recovery", icon: "figure.cooldown")
             Text("Short reset routines for desk-heavy days.")
                 .font(.title2.bold())
+            VisualAssetCard(
+                assetName: "StretchRecoveryVisual",
+                height: 190,
+                title: "Reset without leaving flow",
+                subtitle: "Neck, shoulder, wrist, standing, and decompression routines."
+            )
         }
     }
 
@@ -101,6 +111,7 @@ struct StretchRoutinesView: View {
             HStack {
                 Button("Complete") {
                     viewModel.completeActiveRoutine(in: modelContext)
+                    recordStretchCompletion()
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.ppTeal)
@@ -113,6 +124,13 @@ struct StretchRoutinesView: View {
         }
         .frame(maxWidth: .infinity)
         .cardStyle()
+    }
+
+    private func recordStretchCompletion() {
+        stretchRoutineCompletionCount += 1
+        if GrowthService.shouldRequestReview(completionCount: stretchRoutineCompletionCount) {
+            requestReview()
+        }
     }
 
     private var recommendationsView: some View {

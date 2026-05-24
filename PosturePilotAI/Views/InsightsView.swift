@@ -36,6 +36,11 @@ struct InsightsView: View {
 
                 aiInsights
 
+                ShareInviteCard(
+                    context: .insights(improvementScore: viewModel.improvementScore),
+                    tint: .ppTeal
+                )
+
                 NavigationLink(value: AppRoute.achievements) {
                     HStack {
                         Label("Achievements", systemImage: "rosette")

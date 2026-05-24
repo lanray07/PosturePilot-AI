@@ -1,9 +1,12 @@
 import SwiftData
 import SwiftUI
+import StoreKit
 
 struct CameraPostureView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.requestReview) private var requestReview
     @EnvironmentObject private var appServices: AppServices
+    @AppStorage("postureCheckCompletionCount") private var postureCheckCompletionCount = 0
     @StateObject private var viewModel = CameraPostureViewModel()
 
     var body: some View {
@@ -19,6 +22,7 @@ struct CameraPostureView: View {
                             aiService: appServices.aiService,
                             context: modelContext
                         )
+                        recordPostureCheckCompletionIfNeeded()
                     }
                 } label: {
                     Label(viewModel.isWorking ? "Analyzing" : "Run Posture Check", systemImage: "camera.viewfinder")
@@ -44,34 +48,28 @@ struct CameraPostureView: View {
 
     private var cameraPreview: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.ppSurfaceRaised)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.ppCyan.opacity(0.18), lineWidth: 1)
-                )
+            VisualAssetCard(assetName: "CameraPostureVisual", height: 320)
 
-            VStack(spacing: 14) {
-                Image(systemName: "person.crop.rectangle.stack")
-                    .font(.system(size: 62))
-                    .foregroundStyle(Color.ppCyan)
+            VStack(alignment: .leading, spacing: 8) {
+                Spacer()
                 Text("Front camera posture detection placeholder")
                     .font(.headline)
-                Text("Production builds can replace this preview with an AVCaptureSession and on-device vision pipeline.")
+                    .foregroundStyle(.white)
+                Text("Replace with AVCaptureSession and on-device vision when ready.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
+                    .foregroundStyle(.white.opacity(0.78))
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(18)
         }
-        .frame(height: 320)
     }
 
     @ViewBuilder
     private var phaseView: some View {
         switch viewModel.phase {
         case .idle:
-            EmptyStateView(title: "Ready for a check", subtitle: "Run a camera posture check to create a local session.", icon: "sparkles")
+            EmptyStateView(title: "Ready for a check", subtitle: "Run a camera posture check to create a local session.", icon: "sparkles", assetName: "PostureEmptyVisual")
         case .requestingPermission:
             LoadingStateView(title: "Checking camera permission")
         case .analyzing:
@@ -116,5 +114,13 @@ struct CameraPostureView: View {
                 .foregroundStyle(Color.ppTeal)
         }
         .cardStyle()
+    }
+
+    private func recordPostureCheckCompletionIfNeeded() {
+        guard case .complete = viewModel.phase else { return }
+        postureCheckCompletionCount += 1
+        if GrowthService.shouldRequestReview(completionCount: postureCheckCompletionCount) {
+            requestReview()
+        }
     }
 }

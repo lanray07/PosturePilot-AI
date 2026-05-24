@@ -31,6 +31,8 @@ struct DashboardView: View {
                     refresh()
                 }
 
+                ShareInviteCard(context: .dashboard(score: viewModel.postureScore, streak: viewModel.postureStreak))
+
                 quickActions
 
                 InsightChartCard(
@@ -58,6 +60,12 @@ struct DashboardView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
+            VisualAssetCard(
+                assetName: "HeroPosture",
+                height: 210,
+                title: "Today's posture cockpit",
+                subtitle: "Score, streak, sitting timer, and break rhythm in one calm view."
+            )
             PillLabel(title: "Mock AI enabled", icon: "cpu")
             Text("Steady posture habits, smarter breaks, calmer focus.")
                 .font(.title2.bold())

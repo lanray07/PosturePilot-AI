@@ -1,9 +1,11 @@
 import SwiftData
 import SwiftUI
+import StoreKit
 import UIKit
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.requestReview) private var requestReview
     @EnvironmentObject private var appServices: AppServices
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = true
     @AppStorage("appearance") private var appearance = "dark"
@@ -90,6 +92,22 @@ struct SettingsView: View {
             Section("Subscription") {
                 NavigationLink(value: AppRoute.paywall) {
                     Label("Manage plan", systemImage: "crown")
+                }
+            }
+
+            Section("Share and support") {
+                ShareLink(
+                    item: GrowthService.shareText(for: .general),
+                    subject: Text("PosturePilot AI"),
+                    preview: SharePreview("PosturePilot AI", image: Image("ShareCardVisual"))
+                ) {
+                    Label("Share PosturePilot AI", systemImage: "square.and.arrow.up")
+                }
+
+                Button {
+                    requestReview()
+                } label: {
+                    Label("Rate PosturePilot AI", systemImage: "star")
                 }
             }
 

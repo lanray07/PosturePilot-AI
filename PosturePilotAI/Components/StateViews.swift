@@ -19,12 +19,21 @@ struct EmptyStateView: View {
     var title: String
     var subtitle: String
     var icon: String
+    var assetName: String? = nil
 
     var body: some View {
         VStack(spacing: 10) {
-            Image(systemName: icon)
-                .font(.title)
-                .foregroundStyle(Color.ppCyan)
+            if let assetName {
+                Image(assetName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 126)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            } else {
+                Image(systemName: icon)
+                    .font(.title)
+                    .foregroundStyle(Color.ppCyan)
+            }
             Text(title)
                 .font(.headline)
             Text(subtitle)

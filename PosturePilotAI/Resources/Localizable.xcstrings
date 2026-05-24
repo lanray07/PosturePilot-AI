@@ -1,0 +1,16 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "PosturePilot AI" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PosturePilot AI"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

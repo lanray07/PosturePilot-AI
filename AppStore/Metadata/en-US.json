@@ -9,25 +9,40 @@
   "keywords": "posture,ergonomics,desk,focus,stretch,slouch,breaks,sitting,remote work,students,gamers",
   "description": "PosturePilot AI helps desk-heavy people build healthier posture and movement habits during work, study, gaming, and creative sessions.\n\nUse mock AI posture checks, smart sitting awareness, focus timers, stretch routines, desk setup suggestions, and local insights to stay more aware of how you sit, move, and reset throughout the day.\n\nKey features:\n- Camera posture check placeholder with supportive posture cues\n- Smart sitting timer and movement reminder scaffolding\n- Focus sessions for work, study, gaming, and deep focus\n- Stretch and recovery routines for desk fatigue\n- Desk ergonomics scanner placeholder with setup suggestions\n- Weekly posture trends, streaks, achievements, and insights\n- StoreKit subscription scaffolding for Free, Pro, and Elite plans\n- Apple Watch and WidgetKit placeholders for future companion experiences\n\nPosturePilot AI is designed for remote workers, office workers, students, gamers, coders, creators, and anyone with a desk-heavy lifestyle.\n\nImportant: PosturePilot AI is not a medical device. Insights are informational only and are not medical advice, diagnosis, treatment, or injury prevention. Seek professional care for pain, injuries, or medical concerns.",
   "whatsNew": "New premium visual system, App Store preview assets, share prompts, posture habit milestones, and compliant review prompts.",
-  "supportURL": "https://YOUR_DOMAIN.com/support",
-  "marketingURL": "https://YOUR_DOMAIN.com/posturepilot-ai",
-  "privacyPolicyURL": "https://YOUR_DOMAIN.com/privacy",
+  "supportURL": "https://github.com/lanray07/PosturePilot-AI/issues",
+  "marketingURL": "https://github.com/lanray07/PosturePilot-AI#posturepilot-ai",
+  "privacyPolicyURL": "https://github.com/lanray07/PosturePilot-AI/blob/main/Legal/PrivacyPolicy.md",
   "reviewNotes": "Mock AI is enabled by default. Camera, CoreMotion, Apple Watch, WidgetKit, subscriptions, and remote AI endpoint are scaffolded placeholders. This app contains clear wellness disclaimers and does not claim to diagnose, treat, prevent, or cure medical conditions.",
   "screenshotOrder": [
     {
-      "file": "Marketing/AppStore/posturepilot-appstore-01-posture-checks.png",
+      "file": "Marketing/AppStoreConnect/iPhone-6.5/01-posture-checks.png",
       "headline": "Posture checks for desk days",
       "purpose": "Lead with the core value: posture awareness."
     },
     {
-      "file": "Marketing/AppStore/posturepilot-appstore-02-focus-breaks.png",
+      "file": "Marketing/AppStoreConnect/iPhone-6.5/02-focus-breaks.png",
       "headline": "Focus without forgetting breaks",
       "purpose": "Show a high-frequency daily use case."
     },
     {
-      "file": "Marketing/AppStore/posturepilot-appstore-03-desk-setup.png",
+      "file": "Marketing/AppStoreConnect/iPhone-6.5/03-desk-scan.png",
       "headline": "Make your workspace feel better",
       "purpose": "Capture ergonomics and workspace search intent."
+    },
+    {
+      "file": "Marketing/AppStoreConnect/iPhone-6.5/04-stretch-reset.png",
+      "headline": "Recover with quick desk resets",
+      "purpose": "Show a calming routine completion loop."
+    },
+    {
+      "file": "Marketing/AppStoreConnect/iPhone-6.5/05-insights.png",
+      "headline": "See your desk routine improve",
+      "purpose": "Communicate trends, streaks, and local habit insights."
+    },
+    {
+      "file": "Marketing/AppStoreConnect/iPhone-6.5/06-premium.png",
+      "headline": "Upgrade for deeper insights",
+      "purpose": "Preview the Pro and Elite upgrade path."
     }
   ]
 }

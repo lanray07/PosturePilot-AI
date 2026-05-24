@@ -36,6 +36,15 @@ App Store Connect screenshot sets can be regenerated with:
 python Scripts/generate_app_store_screenshots.py
 ```
 
+Submission form copy, legal pages, and App Store Connect field values live in:
+
+```bash
+AppStore/SubmissionForms.md
+Legal/PrivacyPolicy.md
+Legal/TermsOfUse.md
+Legal/WellnessDisclaimer.md
+```
+
 Local safety checks:
 
 ```bash

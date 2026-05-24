@@ -43,6 +43,7 @@ ALLOWLIST = [
     "https://apps.apple.com/app/id0000000000",
     "OPENAI_API_KEY",
     "YOUR_DOMAIN.com",
+    "Marketing/AppStoreConnect/",
 ]
 
 

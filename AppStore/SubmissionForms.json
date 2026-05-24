@@ -1,0 +1,71 @@
+{
+  "appName": "PosturePilot AI",
+  "subtitle": "Posture & desk breaks",
+  "version": "1.0",
+  "copyright": "2026 Olanrewaju Bankole",
+  "categories": {
+    "primary": "Health & Fitness",
+    "secondary": "Productivity"
+  },
+  "urls": {
+    "support": "https://github.com/lanray07/PosturePilot-AI/issues",
+    "marketing": "https://github.com/lanray07/PosturePilot-AI#posturepilot-ai",
+    "privacyPolicy": "https://github.com/lanray07/PosturePilot-AI/blob/main/Legal/PrivacyPolicy.md"
+  },
+  "reviewContact": {
+    "firstName": "Olanrewaju",
+    "lastName": "Bankole",
+    "phoneNumber": "TODO_REVIEW_CONTACT_PHONE",
+    "email": "TODO_REVIEW_CONTACT_EMAIL"
+  },
+  "appReview": {
+    "signInRequired": false,
+    "username": "",
+    "password": "",
+    "notes": "No account or sign-in is required. Mock AI posture analysis is enabled by default, so reviewers can explore onboarding, dashboard, camera posture check placeholder, focus sessions, stretch routines, desk setup scanner placeholder, insights, achievements, settings, and paywall without external credentials.\n\nPosturePilot AI is a wellness and productivity app, not a medical device. It does not diagnose, treat, prevent, cure, or provide medical advice. Camera and motion features are permission-gated placeholders and app data is stored locally with SwiftData. The remote AI endpoint is placeholder only and no API keys are stored in the app.\n\nSubscription products use StoreKit 2 scaffolding and should be configured in App Store Connect with the product IDs listed in the subscription section."
+  },
+  "medicalDeviceDeclaration": {
+    "regulatedMedicalDevice": false,
+    "note": "PosturePilot AI provides wellness, productivity, posture awareness, desk ergonomics awareness, sitting reminders, and stretch prompts only. It does not diagnose, treat, cure, prevent, monitor, or manage medical conditions."
+  },
+  "privacy": {
+    "dataCollection": "Data Not Collected",
+    "tracking": false,
+    "note": "The current app version keeps posture sessions, focus sessions, routine completion, achievements, desk scan notes, and preferences on device with SwiftData. Mock AI is enabled by default. Camera and motion permissions are used for local placeholders and are not uploaded by this build."
+  },
+  "subscriptions": [
+    {
+      "referenceName": "PosturePilot AI Pro Monthly",
+      "productID": "com.posturepilotai.pro.monthly",
+      "duration": "1 Month",
+      "price": "£7.99",
+      "displayName": "PosturePilot Pro",
+      "description": "Unlock AI posture analysis, unlimited focus sessions, advanced insights, ergonomics scanner, premium routines, Apple Watch placeholders, and widgets placeholders.",
+      "reviewScreenshot": "Marketing/AppStoreConnect/Subscriptions/01-pro-monthly.png"
+    },
+    {
+      "referenceName": "PosturePilot AI Pro Yearly",
+      "productID": "com.posturepilotai.pro.yearly",
+      "duration": "1 Year",
+      "price": "£59.99",
+      "displayName": "PosturePilot Pro",
+      "description": "Unlock AI posture analysis, unlimited focus sessions, advanced insights, ergonomics scanner, premium routines, Apple Watch placeholders, and widgets placeholders.",
+      "reviewScreenshot": "Marketing/AppStoreConnect/Subscriptions/02-pro-yearly.png"
+    },
+    {
+      "referenceName": "PosturePilot AI Elite Monthly",
+      "productID": "com.posturepilotai.elite.monthly",
+      "duration": "1 Month",
+      "price": "£14.99",
+      "displayName": "PosturePilot Elite",
+      "description": "Unlock advanced AI analysis, custom reminder modes, detailed posture reports, productivity insights, and premium themes.",
+      "reviewScreenshot": "Marketing/AppStoreConnect/Subscriptions/03-elite-monthly.png"
+    }
+  ],
+  "release": {
+    "selection": "Automatically release this version"
+  },
+  "build": {
+    "note": "Select the latest uploaded TestFlight/App Store build for version 1.0 after archiving and uploading from Xcode or Transporter. The GitHub Actions build verifies compilation but does not upload a signed App Store build."
+  }
+}

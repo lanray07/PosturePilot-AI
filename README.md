@@ -30,6 +30,12 @@ Brand assets can be regenerated with:
 python Scripts/generate_brand_assets.py
 ```
 
+App Store Connect screenshot sets can be regenerated with:
+
+```bash
+python Scripts/generate_app_store_screenshots.py
+```
+
 Local safety checks:
 
 ```bash

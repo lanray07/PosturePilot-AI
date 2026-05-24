@@ -299,7 +299,7 @@ def make_share_card() -> Image.Image:
     draw.text((230, 84), "PosturePilot AI", fill=WHITE, font=font(50, True))
     draw.text((232, 142), "Posture habits for desk-heavy days", fill=(187, 221, 232), font=font(28))
 
-    draw.text((76, 285), "I’m building a healthier", fill=WHITE, font=font(62, True))
+    draw.text((76, 285), "I'm building a healthier", fill=WHITE, font=font(62, True))
     draw.text((76, 358), "desk routine.", fill=WHITE, font=font(62, True))
     draw.text((78, 450), "Posture checks, focus breaks, stretches,", fill=(196, 230, 240), font=font(29))
     draw.text((78, 490), "and ergonomic awareness.", fill=(196, 230, 240), font=font(29))

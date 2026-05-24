@@ -216,9 +216,9 @@ No, this app does not contain, show, or access third-party content.
 
 ## Build
 
-Select the latest uploaded TestFlight/App Store build for version 1.0 after archiving and uploading from Xcode or Transporter.
+Select the latest uploaded TestFlight/App Store build for version 1.0 after archiving and uploading from Xcode, Transporter, or the manual `Xcode App Store Archive` GitHub Actions workflow.
 
-The GitHub Actions build verifies compilation but does not upload a signed App Store build.
+The default GitHub Actions build verifies compilation. The manual App Store archive workflow requires GitHub Actions signing secrets before it can export or upload a signed IPA.
 
 ## Subscriptions
 

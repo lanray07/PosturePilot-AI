@@ -257,8 +257,8 @@ jobs:
         run: |
           set -euo pipefail
           xcrun altool --upload-app \
-            --platform ios \
-            --file "$IPA_PATH" \
+            -f "$IPA_PATH" \
+            -t ios \
             --apiKey "$APP_STORE_CONNECT_API_KEY_ID" \
             --apiIssuer "$APP_STORE_CONNECT_API_ISSUER_ID"
 

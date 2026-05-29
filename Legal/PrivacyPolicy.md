@@ -36,4 +36,4 @@ PosturePilot AI is not a medical device. Posture and ergonomics insights are inf
 
 For support or privacy questions, open an issue at:
 
-https://github.com/lanray07/PosturePilot-AI/issues
+https://lanray07.github.io/PosturePilot-AI/support/

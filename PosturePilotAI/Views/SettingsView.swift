@@ -75,6 +75,9 @@ struct SettingsView: View {
             }
 
             Section("Legal and wellness") {
+                Link("Support", destination: LegalLinks.support)
+                Link("Privacy Policy Online", destination: LegalLinks.privacy)
+                Link("Terms of Use Online", destination: LegalLinks.terms)
                 NavigationLink("Privacy Policy") {
                     LegalTextView(title: "Privacy Policy", bodyText: privacyPolicyText)
                 }

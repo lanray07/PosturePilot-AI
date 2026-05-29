@@ -164,6 +164,14 @@ enum SubscriptionPlan: String, CaseIterable, Identifiable, Codable {
         }
     }
 
+    var duration: String {
+        switch self {
+        case .free: "No subscription"
+        case .proMonthly, .eliteMonthly: "1 month, auto-renewing"
+        case .proYearly: "1 year, auto-renewing"
+        }
+    }
+
     var includedFeatures: [String] {
         switch self {
         case .free:
@@ -192,6 +200,12 @@ enum SubscriptionPlan: String, CaseIterable, Identifiable, Codable {
             ]
         }
     }
+}
+
+enum LegalLinks {
+    static let support = URL(string: "https://lanray07.github.io/PosturePilot-AI/support/")!
+    static let privacy = URL(string: "https://lanray07.github.io/PosturePilot-AI/privacy/")!
+    static let terms = URL(string: "https://lanray07.github.io/PosturePilot-AI/terms/")!
 }
 
 enum ReminderSensitivity: String, CaseIterable, Identifiable, Codable {

@@ -8,9 +8,9 @@
     "secondary": "Productivity"
   },
   "urls": {
-    "support": "https://github.com/lanray07/PosturePilot-AI/issues",
-    "marketing": "https://github.com/lanray07/PosturePilot-AI#posturepilot-ai",
-    "privacyPolicy": "https://github.com/lanray07/PosturePilot-AI/blob/main/Legal/PrivacyPolicy.md"
+    "support": "https://lanray07.github.io/PosturePilot-AI/support/",
+    "marketing": "https://lanray07.github.io/PosturePilot-AI/",
+    "privacyPolicy": "https://lanray07.github.io/PosturePilot-AI/privacy/"
   },
   "reviewContact": {
     "firstName": "Olanrewaju",

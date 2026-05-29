@@ -49,7 +49,7 @@ posture,ergonomics,desk,focus,stretch,slouch,breaks,sitting,remote work,students
 Support URL:
 
 ```text
-https://github.com/lanray07/PosturePilot-AI/issues
+https://lanray07.github.io/PosturePilot-AI/support/
 ```
 
 Marketing URL:
@@ -61,7 +61,7 @@ https://github.com/lanray07/PosturePilot-AI#posturepilot-ai
 Privacy Policy URL:
 
 ```text
-https://github.com/lanray07/PosturePilot-AI/blob/main/Legal/PrivacyPolicy.md
+https://lanray07.github.io/PosturePilot-AI/privacy/
 ```
 
 Version:

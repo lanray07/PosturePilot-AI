@@ -28,4 +28,4 @@ Features may change over time. Camera posture detection, CoreMotion sitting dete
 
 For support, open an issue at:
 
-https://github.com/lanray07/PosturePilot-AI/issues
+https://lanray07.github.io/PosturePilot-AI/support/

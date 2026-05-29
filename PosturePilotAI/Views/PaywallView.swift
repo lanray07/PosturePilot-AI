@@ -21,6 +21,7 @@ struct PaywallView: View {
                     ErrorStateView(title: "StoreKit placeholder", message: errorMessage)
                 }
 
+                subscriptionDisclosure
                 WellnessDisclaimerView()
             }
             .padding(18)
@@ -61,9 +62,15 @@ struct PaywallView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Text(plan.price)
-                    .font(.title3.bold())
-                    .foregroundStyle(plan == .eliteMonthly ? Color.ppAmber : Color.ppCyan)
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(plan.price)
+                        .font(.title3.bold())
+                        .foregroundStyle(plan == .eliteMonthly ? Color.ppAmber : Color.ppCyan)
+                    Text(plan.duration)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.trailing)
+                }
             }
 
             VStack(alignment: .leading, spacing: 8) {
@@ -88,6 +95,23 @@ struct PaywallView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(plan == .eliteMonthly ? .ppAmber : .ppCyan)
             }
+        }
+        .cardStyle()
+    }
+
+    private var subscriptionDisclosure: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period. Purchases are charged through your Apple ID and can be managed in your App Store account settings.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            HStack(spacing: 14) {
+                Link("Terms of Use", destination: LegalLinks.terms)
+                Link("Privacy Policy", destination: LegalLinks.privacy)
+                Link("Support", destination: LegalLinks.support)
+            }
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle(Color.ppCyan)
         }
         .cardStyle()
     }
